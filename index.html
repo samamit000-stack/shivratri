@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For Prachi 💖</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at top,#2b0033,#0d0014);
+    font-family: Arial, Helvetica, sans-serif;
+    color:white;
+    text-align:center;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    padding:30px;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 40px rgba(255,0,150,0.4);
+    z-index:2;
+    max-width:95%;
+    position:relative;
+}
+
+img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #ff1493;
+    margin-bottom:15px;
+}
+
+.buttons{
+    position:relative;
+    height:140px;
+    margin-top:15px;
+}
+
+button{
+    padding:12px 28px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    position:absolute;
+    transition:.15s linear;
+}
+
+#yesBtn{background:#ff1493;color:white;left:20%;}
+#noBtn{background:#444;color:white;left:60%;}
+
+#message{
+    display:none;
+    margin-top:20px;
+    font-size:22px;
+    color:#ffb3ff;
+}
+
+/* hearts */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+    to{transform:translateY(-110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <img src="her.jpg" alt="Prachi Photo">
+
+    <h2>Prachi, will you be my Parvati for Mahashivratri? 💖</h2>
+
+    <div class="buttons" id="btnArea">
+        <button id="yesBtn">Yes 💘</button>
+        <button id="noBtn">No 🙈</button>
+    </div>
+
+    <div id="message"></div>
+</div>
+
+<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+<script>
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const message=document.getElementById("message");
+const music=document.getElementById("bgMusic");
+const btnArea=document.getElementById("btnArea");
+
+let scale=1;
+
+// dodge No button
+function dodgeButton(){
+    const areaRect=btnArea.getBoundingClientRect();
+    const btnRect=noBtn.getBoundingClientRect();
+
+    const x=Math.random()*(areaRect.width-btnRect.width);
+    const y=Math.random()*(areaRect.height-btnRect.height);
+
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+
+    scale+=0.15;
+    yesBtn.style.transform="scale("+scale+")";
+}
+
+document.addEventListener("mousemove",(e)=>{
+    const rect=noBtn.getBoundingClientRect();
+    const dx=Math.abs(e.clientX-(rect.left+rect.width/2));
+    const dy=Math.abs(e.clientY-(rect.top+rect.height/2));
+    if(dx<80 && dy<50){
+        dodgeButton();
+    }
+});
+
+noBtn.addEventListener("touchstart",dodgeButton);
+noBtn.addEventListener("mouseover",dodgeButton);
+
+// hearts
+function heart(){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerText="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*20+15)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+}
+setInterval(heart,300);
+
+// yes click
+yesBtn.addEventListener("click",()=>{
+    message.style.display="block";
+    message.innerHTML=`Hehe… I knew it 😌✨<br>Happy Mahashivratri, Prachi 💖🕉️`;
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+    music.play();
+});
+</script>
+
+</body>
+</html>
